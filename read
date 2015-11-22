@@ -1,0 +1,259 @@
+#include<stdio.h>
+
+typedef struct
+{
+	char pan;//수 보여주는거 
+	int dnum;//식별번호 
+	int score;//위치점수 
+}board;//오목판 
+
+typedef struct
+{
+	int dnum;//식별번호
+	int x,y;//해당좌표 
+}line;//읽을거 
+ 
+line book[20]; 
+board point[15][15];//판 
+ 
+void read(void);//읽고판단 
+void block(int,int);//읽을거리제공 
+void reset(void);
+main()
+{
+	int x,y,j,i;
+	//유아이 제작 
+	for(i=0;i<15;i++)
+	{
+		for(j=0;j<15;j++)
+		{
+			point[i][j].pan='-';
+		}
+	}
+	//유아이 제작 
+	//유아이 출력 
+	for(i=0;i<15;i++)
+	{
+		printf("  %2d",i);
+	}
+	printf("\n");
+	for(i=0;i<15;i++)
+	{
+		printf("%2d ",i);
+		for(j=0;j<15;j++)
+		{
+			printf("%c   ",point[i][j].pan);
+		}
+		printf("\n\n");
+	}
+	//유아이출력 
+	printf("가로\n");
+	for(y=0;y<15;y++)
+	{
+		for(x=0;x<15;x++)
+		{
+			block(x,y);
+			//read(x,y);
+			//printf("(%d,%d)",x,y);
+		}
+		reset();
+		printf("\n");
+	}
+	printf("\n\n");
+	
+	printf("세로\n");
+		for(x=0;x<15;x++)
+	{
+		for(y=0;y<15;y++)
+		{
+			printf("(%d,%d)",x,y);
+		}
+		printf("\n");
+	}
+	printf("\n\n");
+	
+	printf("대각선 위 오른쪽\n");
+	j=0;
+	y=0;
+	
+	while(1)
+	{
+		x=0;
+		y=j;
+		
+		while(1)
+		{
+			printf("(%d,%d)",x,y);
+			
+			if(x==15&&y==0)
+			{
+				break;
+			}
+			x++;
+			
+			
+			if(y==0)
+			{
+				break;
+			}
+			y--;	
+		}
+		
+		if(x==15&&y==0)
+		{
+			break;
+		}
+		
+		j++;
+		printf("\n");
+	}
+	
+	printf("\n");
+	j=1;
+	while(1)
+	{
+		y=14;
+		x=j;
+		
+		while(1)
+		{
+			printf("(%d,%d)",x,y);
+			
+			if(x==14&&y==14)
+			{
+				break;
+			}
+			x++;
+			
+			
+			if(x==15)
+			{
+				break;
+			}
+			y--;	
+		}
+		
+		if(x==14&&y==14)
+		{
+			break;
+		}
+		
+		j++;
+		printf("\n");
+	}
+	printf("\n\n");
+	
+	printf("대각선 아래 오른쪽\n");
+	
+	j=14;
+	while(1)
+	{
+		y=j;
+		x=0;
+		
+		while(1)
+		{
+			printf("(%d,%d)",x,y);
+			
+			if(x==15)
+			{
+				break;
+			}
+			x++;
+			
+			
+			if(y==14)
+			{
+				break;
+			}
+			y++;	
+		}
+		
+		if(x==15)
+		{
+			break;
+		}
+		
+		j--;
+		printf("\n");
+	}
+	printf("\n");
+	
+		j=1;
+	while(1)
+	{
+		x=j;
+		y=0;
+		
+		while(1)
+		{
+			printf("(%d,%d)",x,y);
+			
+			if(x==14&&y==0)
+			{
+				break;
+			}
+			
+			
+			
+			if(x==14)
+			{
+				break;
+			}
+			x++;
+			y++;	
+		}
+		
+		if(x==14&&y==0)
+		{
+			break;
+		}
+		
+		j++;
+		printf("\n");
+	}
+		
+}
+void block(int x,int y)
+{
+	int i;
+	
+	for(i=19;i<=0;i++)
+	{
+		book[i].dnum=book[i-1].dnum;
+		book[i].x=book[i-1].x;
+		book[i].y=book[i-1].y;
+		
+	}
+	
+	book[0].dnum=point[x][y].dnum;
+	book[0].x=x;
+	book[0].y=y;
+	
+	read();	
+}
+
+void read(void)
+{
+	if(book[0].dnum==0&&book[1].dnum==1&&book[2].dnum==0)
+	{
+		if(10>=point[book[0].x][book[0].y].score)
+		{
+			point[book[0].x][book[0].y].score=10;	
+		}
+		
+		if(10>=point[book[2].x][book[2].y].score)
+		{
+			point[book[2].x][book[0].y].score=10;	
+		}
+	}
+}
+void reset(void)//블록 초기화 
+{
+	int i;
+	
+	for(i=0;i<20;i++)
+	{
+		book[i].dnum=100;
+	}
+}
